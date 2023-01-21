@@ -1,8 +1,6 @@
 import React from "react";
 import { useState } from "react";
-
 import { useEffect } from "react";
-import useStyles from "./styles";
 
 import {
   Typography,
@@ -20,29 +18,32 @@ import {
   Paper,
   withStyles,
   makeStyles,
+  Input,
 } from "@mui/material";
 
 const App = () => {
-  const classes = useStyles();
   return (
     <>
-      <Paper className={classes.myPaper}>
-        <CssBaseline>
-          <main>
-            <Container maxWidth="md">
-              <Typography
-                component="h1"
-                variant="h2"
-                align="center"
-                color="text.primary"
-                gutterBottom
-              >
-                Enter a YouTube URL...
-              </Typography>
-            </Container>
-          </main>
-        </CssBaseline>
-      </Paper>
+      <CssBaseline>
+        <main>
+          <Container maxWidth="md">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Enter a YouTube URL...
+            </Typography>
+          </Container>
+        </main>
+      </CssBaseline>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12} sm={6}>
+          <Input />
+        </Grid>
+      </Grid>
     </>
   );
 };
