@@ -101,8 +101,7 @@ const App = () => {
 
       console.log(response.choices[0].text);
 
-      finalResponse += response.choices[0].text;
-      //let summaryresp = response.data.choices[0].text;
+      finalResponse += response.choices[0].text + "\n";      
       setSummary(finalResponse);
       await sleep(1000);
     }
@@ -121,7 +120,7 @@ const App = () => {
 
     for (let i = 0; i < captions.length; i++) {
       concat += captions[i].text;
-      console.log(captions[i].text);
+      // console.log(captions[i].text);
     }
     // captions.forEach((caption) => console.log(caption.text));
     // captions.forEach((caption) => (concat += caption.text));
@@ -142,7 +141,7 @@ const App = () => {
       },
     });
     const data = await response.json();
-    setSummary(data);
+    // setSummary(data);
     openaiTrigger(data);
   };
 
@@ -163,6 +162,8 @@ const App = () => {
     //get the captions
     await postCaptions(videoId);
   };
+
+  console.log("summary: " + summary)
 
   return (
     <>
@@ -224,19 +225,20 @@ const App = () => {
               boxShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
               backdropFilter: "blur(5px)",
               display: "flex",
+              flexDirection: "column",
               flexWrap: "wrap",
               alignContent: "flex-start",
             }}
           >
-            <Typography
+            {summary && summary.split("\n").map(para => <Typography
               variant="h5"
               align="center"
               fontFamily="Regular"
               gutterBottom
               style={{ flex: "1" }}
             >
-              {summary}
-            </Typography>
+              {para}
+            </Typography>)}
           </Paper>
         </main>
       </CssBaseline>
