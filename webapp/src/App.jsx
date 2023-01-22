@@ -59,16 +59,19 @@ const openaiCompletion = async (summary) => {
     },
     body: JSON.stringify({
       'prompt': `Write summary about the following text. Seperate the paragraphs by new lines: ${summary}. `,
+
       'temperature': 0.1,
-      'max_tokens': 900,
+      'max_tokens': 800,
       'top_p': 1,
       'frequency_penalty': 0,
       'presence_penalty': 0.5,
       'stop': ["\"\"\""],
     })
   };
-  const response = await fetch('https://api.openai.com/v1/engines/code-davinci-002/completions', requestOptions)
+  const response = await fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', requestOptions)
   const json = await response.json();
+  console.log(json)
+  
   return json
 }
 
@@ -94,9 +97,11 @@ const App = () => {
 
       console.log(response)
 
-      console.log(response.data.choices[0].text);
+      
 
-      finalResponse += response.data.choices[0].text;
+      console.log(response.choices[0].text);
+
+      finalResponse += response.choices[0].text;
       //let summaryresp = response.data.choices[0].text;
       setSummary(finalResponse);
       await sleep(1000);
