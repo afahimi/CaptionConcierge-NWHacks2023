@@ -52,23 +52,32 @@ const App = () => {
     document.getElementById("summary").innerHTML = summaryresp;
   };
 
-  const handleClick = () => {
-    openaiTrigger();
-  };
-
   const { getSubtitles } = require("youtube-captions-scraper");
 
   const getAndPrintCaptions = async (videoId, language) => {
-    getSubtitles({
+    const captions = await getSubtitles({
       videoID: videoId, // youtube video id
       lang: language, // default: `en`
-    }).then((captions) => {
-      concat = "";
-      //captions.forEach((caption) => console.log(caption.text));
-      captions.forEach((caption) => (concat += caption.text));
-      //set the input value to the concatenated captions
-      setInputValue(concat);
     });
+    let concat = "";
+    captions.forEach((caption) => console.log(caption.text));
+    captions.forEach((caption) => (concat += caption.text));
+    //set the input value to the concatenated captions
+    setInputValue(concat);
+  };
+
+  const handleClick = async () => {
+    //get the video id
+
+    console.log(`${inputValue}`);
+    const videoId = inputValue;
+    console.log(videoId);
+    //get the captions
+    await getAndPrintCaptions(videoId, "en");
+
+    console.log(inputValue);
+    //trigger the openai
+    openaiTrigger();
   };
 
   return (
