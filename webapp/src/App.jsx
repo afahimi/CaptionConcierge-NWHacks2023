@@ -182,7 +182,7 @@ const App = () => {
               style={{ paddingTop: "200px" }}
               gutterBottom
             >
-              Enter a YouTube URL...
+              CaptionConcierge
             </Typography>
           </Container>
           <Grid
@@ -193,12 +193,13 @@ const App = () => {
             style={{ paddingTop: "10px", paddingBottom: "50px" }}
           >
             <Grid item>
-              <TextField
+              <TextFieldf
                 id="outlined-basic"
                 variant="outlined"
                 style={{ width: "700px" }}
                 value={inputValue}
                 onChange={handleInputChange}
+                label="Enter YouTube URL: EG. https://www.youtube.com/watch?v=QH2-TGUlwu4"
               />
             </Grid>
 
