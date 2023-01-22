@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: "Regular";   /*Can be any text*/
+  src: local("Comfortaa"),
+    url("./fonts/Comfortaa-Regular.ttf") format("truetype");
+}
+
+.comfortaa {
+  font-family: "Comfortaa", sans-serif;
+}
