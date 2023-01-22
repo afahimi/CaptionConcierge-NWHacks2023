@@ -23,20 +23,21 @@ import {
   makeStyles,
   Input,
 } from "@mui/material";
+import { Configuration, OpenAIApi } from "openai";
+import { getSubtitles } from "youtube-captions-scraper";
+
+const configuration = new Configuration({
+  apiKey: "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",
+});
+const openai = new OpenAIApi(configuration);
 
 const App = () => {
   //For the button
   const [inputValue, setInputValue] = useState("");
+  const [summary, setSummary] = useState("");
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-
-  const { Configuration, OpenAIApi } = require("openai");
-
-  const configuration = new Configuration({
-    apiKey: "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",
-  });
-  const openai = new OpenAIApi(configuration);
 
   const openaiTrigger = async () => {
     const response = await openai.createCompletion({
@@ -46,22 +47,26 @@ const App = () => {
     });
 
     let summaryresp = response.data.choices[0].text;
-
-    console.log(summaryresp);
-
-    document.getElementById("summary").innerHTML = summaryresp;
+    setSummary(summaryresp)
   };
 
-  const { getSubtitles } = require("youtube-captions-scraper");
-
   const getAndPrintCaptions = async (videoId, language) => {
+    console.log("Getting subtitles for video: ", videoId);
     const captions = await getSubtitles({
       videoID: videoId, // youtube video id
       lang: language, // default: `en`
     });
+
+    console.log(captions[0].text);
+    console.log("parsing...");
     let concat = "";
-    captions.forEach((caption) => console.log(caption.text));
-    captions.forEach((caption) => (concat += caption.text));
+
+    for (let i = 0; i < captions.length; i++) {
+      concat += captions[i].text;
+      console.log(captions[i].text);
+    }
+    // captions.forEach((caption) => console.log(caption.text));
+    // captions.forEach((caption) => (concat += caption.text));
     //set the input value to the concatenated captions
     setInputValue(concat);
   };
@@ -136,11 +141,10 @@ const App = () => {
             }}
           >
             <Typography
-              id="summary"
               variant="h5"
               align="center"
               gutterBottom
-            ></Typography>
+            >{summary}</Typography>
           </Paper>
         </main>
       </CssBaseline>
