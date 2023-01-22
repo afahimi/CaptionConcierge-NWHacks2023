@@ -47,7 +47,7 @@ const theme = createTheme({
   },
 });
 
-const apiKey = "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"
+const apiKey = "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"
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const openaiCompletion = async (summary) => {
@@ -193,7 +193,7 @@ const App = () => {
             style={{ paddingTop: "10px", paddingBottom: "50px" }}
           >
             <Grid item>
-              <TextFieldf
+              <TextField
                 id="outlined-basic"
                 variant="outlined"
                 style={{ width: "700px" }}
