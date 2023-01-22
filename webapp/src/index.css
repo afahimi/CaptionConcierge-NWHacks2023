@@ -3,7 +3,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing:aliased;
   -moz-osx-font-smoothing: grayscale;
 }
 
@@ -16,6 +16,12 @@ code {
   font-family: "Regular";   /*Can be any text*/
   src: local("Comfortaa"),
     url("./fonts/Comfortaa-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Bold";   /*Can be any text*/
+  src: local("Comfortaa"),
+    url("./fonts/Comfortaa-Light.ttf") format("truetype");
 }
 
 .comfortaa {

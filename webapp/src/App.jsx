@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
 import "./fonts/Comfortaa-Regular.ttf";
+import './index.css';
 
 import {
   Typography,
@@ -46,10 +47,30 @@ const theme = createTheme({
   },
 });
 
-const configuration = new Configuration({
-  apiKey: "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",
-});
-const openai = new OpenAIApi(configuration);
+const apiKey = "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"
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const openaiCompletion = async (summary) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    },
+    body: JSON.stringify({
+      'prompt': `Write summary about the following text. Seperate the paragraphs by new lines: ${summary}. `,
+      'temperature': 0.1,
+      'max_tokens': 900,
+      'top_p': 1,
+      'frequency_penalty': 0,
+      'presence_penalty': 0.5,
+      'stop': ["\"\"\""],
+    })
+  };
+  const response = await fetch('https://api.openai.com/v1/engines/code-davinci-002/completions', requestOptions)
+  const json = await response.json();
+  return json
+}
 
 const App = () => {
   //For the button
@@ -59,21 +80,26 @@ const App = () => {
     setInputValue(e.target.value);
   };
 
-  const openaiTrigger = async () => {
-    console.log("triggered: " + summary);
+  const openaiTrigger = async (summary) => {
     let finalResponse = "";
     for (let i = 0; i < summary.length; i++) {
-      const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: `Write summary about the following text: ${summary[i]}. Seperate the paragraphs by new lines`,
-        max_tokens: 4000,
-      });
+      console.log("triggered: " + summary[i]);
+      // const response = await openai
+      //   .createCompletion({
+      //     model: "code-davinci-002",
+      //     prompt: ,
+      //     max_tokens: 8000,
+      //   });
+      const response = await openaiCompletion(summary[i])
+
+      console.log(response)
 
       console.log(response.data.choices[0].text);
 
       finalResponse += response.data.choices[0].text;
       //let summaryresp = response.data.choices[0].text;
       setSummary(finalResponse);
+      await sleep(1000);
     }
   };
 
@@ -112,22 +138,25 @@ const App = () => {
     });
     const data = await response.json();
     setSummary(data);
-    console.log(summary);
-    console.log(data);
+    openaiTrigger(data);
   };
 
+  //TODO the button parseing the URL not working idk why. I think i solved it but guess not
   const handleClick = async () => {
     //get the video id
-
-    console.log(`${inputValue}`);
     const videoId = inputValue;
     console.log(videoId);
+    //let videoId;
+
+    // var regExp = "/^.(youtu.be/|v/|u/\w/|embed/|watch?v=|&v=)([^#&?]).*/";
+    // var match = inputValue.match(regExp);
+    // if (match && match[2].length == 11) {
+    //   videoId = match[2];
+    // } else {
+    //   //error
+    // }
     //get the captions
     await postCaptions(videoId);
-
-    console.log(inputValue);
-    //trigger the openai
-    openaiTrigger();
   };
 
   return (
@@ -137,7 +166,10 @@ const App = () => {
           <Container maxWidth="md">
             <Typography
               className="comfortaa"
+              fontFamily="Bold"
               component="h1"
+              //size = "30px"
+              fontSize= "70px"
               variant="h2"
               align="center"
               color="text.primary"
@@ -165,7 +197,7 @@ const App = () => {
             </Grid>
 
             <Grid item>
-              <Button variant="contained" size="large" onClick={handleClick}>
+              <Button variant="contained" size="large" onClick={handleClick} font-family = "Bold" fontSize = "25px" width = "100px" height = "50px">
                 Generate
               </Button>
             </Grid>
@@ -175,18 +207,29 @@ const App = () => {
             style={{
               borderRadius: 10,
               width: "1000px",
-              height: "700px",
               marginLeft: "auto",
               marginRight: "auto",
               marginBottom: "100px",
-              paddingTop: "50x",
-              paddingBottom: "100px",
+              paddingTop: "30px",
+              paddingLeft: "30px",
+              paddingRight: "30px",
+              paddingBottom: "30px",
+              paddingBottom: "30px",
               backgroundColor: "#d8caf6",
               boxShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
               backdropFilter: "blur(5px)",
+              display: "flex",
+              flexWrap: "wrap",
+              alignContent: "flex-start",
             }}
           >
-            <Typography variant="h5" align="center" gutterBottom>
+            <Typography
+              variant="h5"
+              align="center"
+              fontFamily="Regular"
+              gutterBottom
+              style={{ flex: "1" }}
+            >
               {summary}
             </Typography>
           </Paper>
