@@ -1,11 +1,4 @@
-# import requests
-
-# url = 'http://localhost:5000/captions'
-# response = requests.get(url)
-
-# print(response.status_code)
-# print(response.text)
-
+#Test python client for the flask server
 import requests
 import json
 
